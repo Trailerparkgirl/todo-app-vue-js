@@ -1,22 +1,27 @@
 <template>
     <div>
       <input type="text" class="todo-input" placeholder="What needs to be done" v-model="newTodo" @keyup.enter="addTodo">
-      <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
-        <div class="todo-item-left">
+      <todo-item v-for="(todo, index) in todos" :key="todo.id" :todo="todo" :index="index" @removedTodo="removeTodo">
+        <!-- <div class="todo-item-left">
           <input type="checkbox" v-model="todo.completed">
           <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label" :class="{ completed : todo.completed }">{{ todo.title }}</div>
           <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
         </div>
         <div class="remove-item" @click="removeTodo(index)">
           &times;
-        </div>
-      </div>
+        </div> -->
+      </todo-item>
     </div>
   </template>
   
   <script>
+  import TodoItem from './TodoItem.vue'
+
   export default {
     name: 'todo-list',
+    components:{
+        TodoItem,
+    },
     data () {
       return {
         newTodo: '',
@@ -84,8 +89,7 @@
   </script>
   
   <style lang="scss">
-    @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
-  
+
     .todo-input {
       width: 100%;
       padding: 10px 18px;
