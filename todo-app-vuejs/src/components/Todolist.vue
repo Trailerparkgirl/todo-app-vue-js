@@ -1,7 +1,7 @@
 <template>
     <div>
       <input type="text" class="todo-input" placeholder="What needs to be done" v-model="newTodo" @keyup.enter="addTodo">
-      <todo-item v-for="todo in todos" :key="todo.id" :todo="todo" @removedTodo="removeTodo" @finishedEdit="finishedEdit">
+      <todo-item v-for="todo in this.$store.state.todos" :key="todo.id" :todo="todo">
       </todo-item>
     </div>
   </template>
@@ -18,46 +18,24 @@
       return {
         newTodo: '',
         idForTodo: 3,
-        todos: [
-          {
-            'id': 1,
-            'title': 'Finish Vue Screencast',
-            'completed': false,
-            'editing': false,
-          },
-          {
-            'id': 2,
-            'title': 'Take over world',
-            'completed': false,
-            'editing': false,
-          },
-        ]
       }
     },
 
     methods: {
-      addTodo() {
-        if (this.newTodo.trim().length == 0) {
-          return
-        }
-  
-        this.todos.push({
-          id: this.idForTodo,
-          title: this.newTodo,
-          completed: false,
-        })
-  
-        this.newTodo = ''
-        this.idForTodo++
-      },
-      removeTodo(id) {
-        const index = this.todos.findIndex((item) => item.id == id)
-        this.todos.splice(index, 1)
-      },
-      finishedEdit(data) {
-        const index = this.todos.findIndex((item) => item.id == data.id)
-        this.todos.splice(index, 1, data)
-      }
+        addTodo() {
+            if (this.newTodo.trim().length === 0) {
+                return;
+            }
+
+            this.$store.dispatch('addTodoAction', {
+                id: this.idForTodo,
+                title: this.newTodo,
+                completed: false,
+            });
+
+            this.newTodo = '';
+            this.idForTodo++;
+        },
     }
   }
   </script>

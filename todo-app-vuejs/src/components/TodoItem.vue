@@ -29,7 +29,7 @@
         'beforeEditCache': '',
       }
     },
-    
+
     directives: {
       focus: {
         inserted: function (el) {
@@ -38,30 +38,29 @@
       }
     },
     methods: {
-      removeTodo(id) {
-        this.$emit('removedTodo', id)
-      },
-      editTodo() {
-        this.beforeEditCache = this.title
-        this.editing = true
-      },
-      doneEdit() {
-        if (this.title.trim() == '') {
-          this.title = this.beforeEditCache
-        }
-        this.editing = false
-        this.$emit('finishedEdit', {
-          'id': this.id,
-          'title': this.title,
-          'completed': this.completed,
-          'editing': this.editing,
-        })
-  
-      },
-      cancelEdit() {
-        this.title = this.beforeEditCache
-        this.editing = false
-      },
+        removeTodo(id) {
+            this.$store.dispatch('removeTodoAction', id);
+        },
+        editTodo() {
+            this.beforeEditCache = this.title
+            this.editing = true
+        },
+        doneEdit() {
+            if (this.title.trim() == '') {
+            this.title = this.beforeEditCache
+            }
+            this.editing = false
+            this.$store.dispatch('updateTodoAction', {
+                'id': this.id,
+                'title': this.title,
+                'completed': this.completed,
+                'editing': this.editing,
+            })
+        },
+        cancelEdit() {
+            this.title = this.beforeEditCache
+            this.editing = false
+        },
     }
   }
   </script>
