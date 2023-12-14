@@ -20,7 +20,9 @@
         idForTodo: 3,
       }
     },
-
+    created() {
+      this.$store.dispatch('retrieveTodos')
+    },
     methods: {
         addTodo() {
             if (this.newTodo.trim().length === 0) {
